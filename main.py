@@ -1,6 +1,6 @@
 import pandas
 
-from graph.graph_db import connect_to_graph_db
+from graphdb.graph_db import connect_to_graph_db
 
 class Landscape:
     """Provide an interface to the Neo4J database containing the landscape."""

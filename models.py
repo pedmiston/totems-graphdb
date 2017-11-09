@@ -1,5 +1,5 @@
 from py2neo import Node, Relationship
-from graph.util import path_to_image
+from graphdb.util import path_to_image
 
 
 def Item(number, label, generation, score=None):

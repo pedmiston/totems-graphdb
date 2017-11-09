@@ -4,8 +4,8 @@ import pandas
 from graphviz import Digraph
 import unipath
 
-from graph.graph_db import connect_to_graph_db
-from graph.util import path_to_image
+from graphdb.graph_db import connect_to_graph_db
+from graphdb.util import path_to_image
 
 
 def make_landscape(image_dir, max_generation=None, max_number=None):
