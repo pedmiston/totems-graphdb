@@ -46,6 +46,11 @@ class Landscape:
         RETURN n.number as number, n.label as label
         """)).set_index('number').squeeze().to_dict()
 
+        self.code_results = pandas.DataFrame(self.graph.data("""
+        MATCH (r:Recipe) -[:CREATES]-> (n:Item)
+        RETURN r.code as code, n.number as number
+        """)).set_index('code').squeeze().to_dict()
+
         # self.item_numbers = {label: number for number, label in self.labels}
 
         self.scores = None
@@ -117,7 +122,7 @@ class Landscape:
         adjacent_possible = []
         for code, chunk in requirements.groupby('code'):
             if all(chunk.requirement.isin(inventory)):
-                adjacent_possible.append(code)
+                adjacent_possible.append(self.code_results[code])
 
         return adjacent_possible
 
