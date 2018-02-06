@@ -54,6 +54,7 @@ class Landscape:
         # self.item_numbers = {label: number for number, label in self.labels}
 
         self.scores = None
+        self.recipes = None
 
     def starting_inventory(self):
         return set([1, 2, 3, 4, 5, 6])
@@ -69,6 +70,21 @@ class Landscape:
             """)).set_index('number').squeeze().to_dict()
         return self.scores.get(item_number, 0)
 
+    def get_recipe(self, item_number):
+        if self.recipes is None:
+            recipe_data = pandas.DataFrame(self.graph.data("""
+            MATCH (r:Recipe) -[:REQUIRES]-> (req:Item)
+            MATCH (r) -[:CREATES]-> (res:Item)
+            RETURN res.number AS result, req.number as requirement
+            """))
+
+            recipes = {}
+            for (result, chunk) in recipe_data.groupby('result'):
+                recipes[result] = chunk.requirement.tolist()
+
+            self.recipes = recipes
+
+        return self.recipes[item_number]
 
     # def get_number(self, label):
     #     return self.item_numbers[label]
