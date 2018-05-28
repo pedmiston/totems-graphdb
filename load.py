@@ -49,10 +49,10 @@ def load(delete_first=False):
 
         # Convert numpy.int64 to native python int because
         # py2neo nodes don't like numpy.int64 properties
-        number = data.Number.item()
+        number = data.Number
 
         # Convert ScoreLog to item score
-        score = data.ScoreLog.item() if data.ScoreLog != 0 else 15
+        score = data.ScoreLog if data.ScoreLog != 0 else 15
 
         result = Item(number=number, label=data.Label, score=score,
                       generation=max_generation(requirements)+1)
